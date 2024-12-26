@@ -1,0 +1,48 @@
+-- Kịch bản Auto Farm trong Blox Fruits-like game
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local attackRange = 50  -- Khoảng cách để tấn công quái vật
+local attackCooldown = 2  -- Thời gian chờ giữa mỗi đợt tấn công
+local lastAttackTime = 0  -- Thời gian của lần tấn công gần nhất
+
+-- Hàm tấn công quái vật
+local function attackMonster(monster)
+    -- Kiểm tra xem thời gian giữa các đợt tấn công đã đủ hay chưa
+    if tick() - lastAttackTime >= attackCooldown then
+        -- Kiểm tra nếu quái vật có humanoid và có thể tấn công
+        if monster and monster:FindFirstChild("Humanoid") then
+            local monsterHumanoid = monster.Humanoid
+            -- Giảm HP của quái vật
+            monsterHumanoid:TakeDamage(10)  -- Tùy chỉnh số damage khi tấn công quái vật
+            lastAttackTime = tick()  -- Cập nhật thời gian của lần tấn công
+            print("Đã tấn công quái vật: " .. monster.Name)
+        end
+    end
+end
+
+-- Hàm tìm quái vật trong phạm vi tấn công
+local function findMonsterInRange()
+    local monsters = {}  -- Lưu trữ các quái vật trong phạm vi tấn công
+    for _, object in pairs(workspace:GetChildren()) do
+        if object:FindFirstChild("Humanoid") and object.Humanoid.Health > 0 then
+            local distance = (object.PrimaryPart.Position - character.PrimaryPart.Position).Magnitude
+            if distance <= attackRange then
+                table.insert(monsters, object)  -- Thêm quái vật vào danh sách nếu nó trong phạm vi tấn công
+            end
+        end
+    end
+    return monsters
+end
+
+-- Vòng lặp tự động farm level
+while true do
+    -- Tìm các quái vật trong phạm vi
+    local monsters = findMonsterInRange()
+    if #monsters > 0 then
+        -- Nếu có quái vật trong phạm vi, tấn công quái vật đầu tiên
+        attackMonster(monsters[1])
+    end
+    wait(1)  -- Đợi một giây trước khi kiểm tra lại
+end
