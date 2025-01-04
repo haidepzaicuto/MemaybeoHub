@@ -1,3 +1,10 @@
+local Window = Fluent:CreateWindow({
+    Title = "KITSUNE Hub",
+    SubTitle = "by khang dep zai"local Fluent = loadstring"(game:Https://raw.githubusercontent.com/haidepzaicuto/MemaybeoHub/refs/heads/main/memaybeo%20Hub"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/haidepzaicuto/MemaybeoHub/refs/heads/main/memaybeo%20Hub"))()
+local InterfaceManager = loadstring(game:Https://raw.githubusercontent.com/haidepzaicuto/MemaybeoHub/refs/heads/main/memaybeo%20Hub"))()
+--------------------------------------------------------------------------------------------------------------------------------------------
+,
     TabWidth = 160,
     Size = UDim2.fromOffset(530, 350),
     Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
